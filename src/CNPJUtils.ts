@@ -1,16 +1,22 @@
+const TAMANHO_CNPJ = 14;
+
 export class CNPJUtils {
-  public static validateCNPJ(cnpj: any): boolean {
-    // TODO: remover console.log depois
-    console.log("Validando CNPJ:", cnpj);
+  private static verificaTamanho(cnpj: string): boolean {
+    return cnpj.length === TAMANHO_CNPJ
+  }
 
-    const x = cnpj.replace(/\D/g, "");
-    console.log("CNPJ limpo:", x);
+  private static apenasNumerosRepetidos(cnpj: string): boolean {
+    return /^(\d)\1{13}$/.test(cnpj);
+  }
 
-    if (x.length !== 14) {
+  public static validadorDeCnpj(cnpj: string): boolean {
+    const cnpjTratado = cnpj.replace(/\D/g, "");
+    
+    if(!this.verificaTamanho(cnpj))  {
       return false;
     }
 
-    if (/^(\d)\1{13}$/.test(x)) {
+    if (this.apenasNumerosRepetidos(cnpj)) {
       return false;
     }
 
